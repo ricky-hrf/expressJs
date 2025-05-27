@@ -1,0 +1,21 @@
+{
+  "name": "express_api",
+  "version": "1.0.0",
+  "description": "project_api",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^2.2.0",
+    "express": "^4.21.2",
+    "express-validator": "^7.2.1",
+    "mysql2": "^3.14.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
