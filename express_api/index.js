@@ -3,12 +3,12 @@ const bodyParser = require('body-parser');
 const cors = require("cors");
 const userRoutes = require("./routes/users");
 const db = require("./config/database")
-const app = express()
-const port = 3000
+const app = express();
+const port = 5000;
 
 // middleware body-parser
+app.use(cors());
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
 
 // import route posts
 const postsRouter = require('./routes/posts')
