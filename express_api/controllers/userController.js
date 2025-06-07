@@ -8,7 +8,7 @@ exports.getAllUsers = (req, res) => {
   });
 };
 
-// panggul uses berdasarkan id
+// panggil user berdasarkan id
 exports.getUser = (req, res) => {
   const userId = req.params.id;
   db.query("SELECT * FROM users WHERE id = ?", [userId], (err, results) => {
