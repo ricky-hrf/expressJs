@@ -19,3 +19,34 @@ exports.getUser = (req, res) => {
     res.json(results[0]);
   });
 };
+
+// menambah pengguna baru
+exports.createUser = (req, res) => {
+  const { nama, hp, email, joindate, alamat, bio, foto, role } = req.body;
+
+  // validasi input
+  if (!nama || !hp || !email) {
+    return res.status(400).json({ message: "Nama, HP, and Email are required" });
+  }
+
+  // query untuk menambah pengguna
+  db.query(
+    "INSERT INTO users (nama, hp, email, joindate, alamat, bio, foto, role) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+    [nama, hp, email, joindate, alamat, bio, foto, role],
+    (err, results) => {
+      // handel error duplikasi
+      if (err) {
+        if (err.code === 'ER_DUP_ENTRY') {
+          return res.status(400).json({ message: "Email sudah digunakan" });
+        }
+        return res.status(500).json({ message: err.message });
+      }
+
+      // jika berhasil, kembalikan data pengguna yang baru dibuat
+      res.status(201).json({
+        message: "Pengguna baru berhasil dibuat",
+        userId: results.insertId,
+      });
+    }
+  );
+}
