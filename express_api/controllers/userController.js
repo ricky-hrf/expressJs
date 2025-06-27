@@ -24,11 +24,6 @@ exports.getUser = (req, res) => {
 exports.createUser = (req, res) => {
   const { nama, hp, email, joindate, alamat, bio, foto, role } = req.body;
 
-  // validasi input
-  if (!nama || !hp || !email) {
-    return res.status(400).json({ message: "Nama, HP, and Email are required" });
-  }
-
   // query untuk menambah pengguna
   db.query(
     "INSERT INTO users (nama, hp, email, joindate, alamat, bio, foto, role) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
