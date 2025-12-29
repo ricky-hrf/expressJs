@@ -18,6 +18,20 @@ app.get('/api/todos/', (req, res) => {
   res.send(todos);
 })
 
+app.get('/api/todos/:id', (req, res) => {
+  const { id } = req.params;
+
+  const todoId = parseInt(id);
+  if (isNaN(todoId)) {
+    res.status(400).send(`Invalid id ${id}`);
+  }
+
+  const todo = todos.find((todo) => todo.id === todoId);
+  if (todo) res.status(200).send(todo);
+
+  res.status(404).send(`Todo with id ${id} not found`);
+});
+
 app.listen(PORT, () => {
   console.log(`server is listening on port http://localhost:${PORT}`)
 })
