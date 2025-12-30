@@ -4,6 +4,22 @@ import { todos, nextTodoId } from './todos.js';
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// define a middleware
+const log = (req, res, next) => {
+  console.log(`Request: ${req.method} ${req.url}`);
+  next();
+}
+
+app.use(log);
+
+app.get('/', (req, res) => {
+  res.send('home');
+});
+
+app.get('/about', (req, res) => {
+  res.send('about');
+});
+
 app.get('/api/todos/', (req, res) => {
   // res.send(todos);
   if (req?.query?.completed) {
