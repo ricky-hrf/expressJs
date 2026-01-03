@@ -35,14 +35,83 @@ router.post('/posts', (req, res) => {
 
 });
 
-router.put('/todos/:id', (req, res) => {
-  const { id } = req.params;
-  res.send(`update the todo item with id ${id}`);
+router.put('/posts/:id', (req, res) => {
+  // const { id } = req.params;
+  // mengubah id jadi integer secara langsung dan efesien
+  const id = parseInt(req.params.id);
+  const { title } = req.body;
+
+  // cari index todo
+  const postIndex = posts.findIndex(post => post.id === id);
+
+  if (postIndex === -1) {
+    return res.status(404).json({
+      message: 'postingan tidak ditemukan'
+    });
+  }
+
+  // update data
+  posts[postIndex].title = title;
+
+  res.json({
+    message: 'Todo berhasil diupdate',
+    data: posts[postIndex]
+  });
 });
 
-router.delete('/todos/:id', (req, res) => {
+// terkadang yang dirubah itu satu per satu, untuk kasus ini kita bisa pakai method PATCH
+router.patch('/posts/:id', (req, res) => {
+  const id = parseInt(req.params.id);
+  const update = req.body;
+
+  const postId = parseInt(id);
+  if (isNaN(postId)) {
+    res.status(400).send(`Invalid id ${id}`);
+  }
+
+  const post = posts.find(post => post.id === id);
+
+  if (!post) {
+    return res.status(404).json({
+      message: 'postingan tidak ditemukan'
+    });
+  }
+
+  // update data secara dinamis
+  Object.keys(update).forEach(key => {
+    if (key !== 'id') {
+      post[key] = update[key];
+    }
+  });
+
+  res.json({
+    message: 'postingan berhasil diubah',
+    data: post
+  });
+});
+
+router.delete('/posts/:id', (req, res) => {
   const { id } = req.params;
-  res.send(`delete the todo item with id ${id}`);
+
+  const postId = parseInt(id);
+  if (isNaN(postId)) {
+    res.status(400).send(`id tidak valid ${id}`);
+  }
+
+  // mencari data yang ingin dihapus berdasarkan id
+  const postIndex = posts.findIndex(post => post.id === postId);
+  if (postIndex === -1) {
+    return res.status(404).json({
+      message: 'postingan tidak ditemukan'
+    });
+  }
+
+  const deletePost = posts.slice(postIndex, 1);
+
+  res.json({
+    message: `delete the todo item with id ${id}`,
+    data: deletePost[0]
+  });
 });
 
 router.get('/posts/:id', (req, res) => {
