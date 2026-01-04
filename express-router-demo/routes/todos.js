@@ -1,5 +1,6 @@
 import express from 'express';
 import posts from '../data/posts.js';
+import validatePosts from '../middlewares/validatePosts.js';
 
 const router = express.Router();
 
@@ -12,7 +13,7 @@ router.get('/posts', (req, res) => {
 });
 
 // endpoint post untuk menambah data
-router.post('/posts', (req, res) => {
+router.post('/posts', validatePosts, (req, res) => {
   const { author, created_at, title, article } = req.body;
 
   // object untuk data baru
@@ -35,7 +36,7 @@ router.post('/posts', (req, res) => {
 
 });
 
-router.put('/posts/:id', (req, res) => {
+router.put('/posts/:id', validatePosts, (req, res) => {
   // const { id } = req.params;
   // mengubah id jadi integer secara langsung dan efesien
   const id = parseInt(req.params.id);
@@ -60,7 +61,7 @@ router.put('/posts/:id', (req, res) => {
 });
 
 // terkadang yang dirubah itu satu per satu, untuk kasus ini kita bisa pakai method PATCH
-router.patch('/posts/:id', (req, res) => {
+router.patch('/posts/:id', validatePosts, (req, res) => {
   const id = parseInt(req.params.id);
   const update = req.body;
 
