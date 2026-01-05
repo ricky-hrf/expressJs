@@ -1,0 +1,16 @@
+{
+  "type": "module",
+  "name": "express-router-demo",
+  "version": "1.0.0",
+  "description": "Belajar routing express dengan middleware",
+  "main": "index.js",
+  "scripts": {
+    "start": "node --env-file=.env --watch index.js"
+  },
+  "author": "ricky",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.2.1",
+    "zod": "^4.3.5"
+  }
+}
