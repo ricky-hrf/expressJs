@@ -2,6 +2,7 @@ import express from 'express';
 import posts from '../data/posts.js';
 import { validation } from '../middlewares/validation.js';
 import { postSchema, postIdSchema } from '../schemas/posts.js';
+import { deletePost } from '../controllers/post.controllers.js';
 
 const router = express.Router();
 
@@ -85,24 +86,7 @@ router.patch('/posts/:id', validation({ params: postIdSchema, body: postSchema }
   });
 });
 
-router.delete('/posts/:id', validation({ params: postIdSchema }), (req, res) => {
-  const { id } = req.params;
-
-  // mencari data yang ingin dihapus berdasarkan id
-  const postIndex = posts.findIndex(post => post.id === id);
-  if (postIndex === -1) {
-    return res.status(404).json({
-      message: 'postingan tidak ditemukan'
-    });
-  }
-
-  const deletePost = posts.splice(postIndex, 1);
-
-  res.json({
-    message: `delete the todo item with id ${id}`,
-    data: deletePost[0]
-  });
-});
+router.delete('/posts/:id', validation({ params: postIdSchema }), deletePost);
 
 router.get('/posts/:id', validation({ params: postIdSchema }), (req, res) => {
   const { id } = req.params;
