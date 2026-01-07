@@ -1,12 +1,36 @@
-import posts from '../data/posts.js';
+import crypto from 'crypto';
+import { insertPost, findAllPosts, findPostById, updatePostById, deletePost } from '../model/post.model.js';
 
-export const deletePostById = (id) => {
-  const index = posts.findIndex(post => post.id === id);
+export const createPost = async ({ author, title, article }) => {
+  const newPost = {
+    id: crypto.randomUUID(),
+    author,
+    created_at: new Date(),
+    title,
+    article,
+  }
 
-  if (index === -1) {
+  return await insertPost(newPost);
+};
+
+export const getAllPosts = async () => {
+  return await findAllPosts();
+}
+
+export const getPostById = async (id) => {
+  return await findPostById(id);
+}
+
+export const updatePost = async (id, payload) => {
+  const affectedRows = await updatePostById(id, payload);
+
+  if (affectedRows === 0) {
     return null;
   }
 
-  const deletePost = posts.splice(index, 1);
-  return deletePost[0];
+  return await findPostById(id);
+}
+
+export const deletePostById = async (id) => {
+  return await deletePost(id);
 }

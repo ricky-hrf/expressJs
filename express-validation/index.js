@@ -1,5 +1,5 @@
 import express from 'express';
-import todoRoutes from './routes/todos.js';
+import postsRoutes from './routes/postsRoutes.js';
 import log from './middlewares/logger.js';
 
 const app = express();
@@ -12,7 +12,7 @@ app.use(express.json()); //untuk data JSON
 app.use(express.urlencoded({ extended: true })); //untuk form
 
 // todo routes
-app.use('/', todoRoutes);
+app.use('/', postsRoutes);
 
 
 app.listen(PORT, () => {
