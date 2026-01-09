@@ -16,13 +16,13 @@ export const insertUser = async (user) => {
 }
 
 export const allUsers = async () => {
-  const [data] = await db.execute('SELECT * FROM users ORDER BY created_at DESC');
+  const [data] = await db.execute('SELECT * FROM users WHERE deleted_at IS NULL');
   return data;
 }
 
 export const userById = async (id) => {
-  const [row] = await db.execute('SELECT * FROM users WHERE id = ?', [id]);
-  return row;
+  const [row] = await db.execute('SELECT * FROM users WHERE id = ? AND deleted_at IS NULL', [id]);
+  return row[0] || null;
 }
 
 export const updateById = async (id, payload) => {
@@ -44,8 +44,8 @@ export const updateById = async (id, payload) => {
   return result.affectedRows;
 }
 
-export const deleteById = async (id) => {
-  const [result] = await db.execute('DELETE FROM users WHERE id = ?', [id]);
+export const softDeleteById = async (id) => {
+  const [result] = await db.execute('UPDATE users SET deleted_at = NOW() WHERE id = ? AND deleted_at IS NULL', [id]);
 
   return result.affectedRows > 0;
 }

@@ -1,5 +1,5 @@
 import crypto from 'crypto';
-import { insertUser, allUsers, userById, updateById, deleteById } from '../model/users.model.js';
+import { insertUser, allUsers, userById, updateById, softDeleteById } from '../model/users.model.js';
 
 export const createUser = async ({ fullname, email, password, address }) => {
   const newUser = {
@@ -33,5 +33,5 @@ export const updateUserById = async (id, payload) => {
 }
 
 export const deleteUserById = async (id) => {
-  return await deleteById(id);
+  return await softDeleteById(id);
 }

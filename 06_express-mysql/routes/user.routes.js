@@ -14,10 +14,10 @@ router.get('/', (req, res) => {
 router.post('/users', validation({ body: userSchema }), addUser);
 
 // router READ data
-router.get('/users', validation({ body: userSchema }), allUsers);
+router.get('/users', allUsers);
 
 // router READ data BY ID
-router.get('/users/:id', validation({ body: userSchema, params: userIdSchema }), userById);
+router.get('/users/:id', validation({ params: userIdSchema }), userById);
 
 // router UPDATE data BY ID
 router.put('/users/:id', validation({ body: userSchema, params: userIdSchema }), updateById);
