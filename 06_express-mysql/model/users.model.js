@@ -16,7 +16,7 @@ export const insertUser = async (user) => {
 }
 
 export const allUsers = async () => {
-  const [data] = await db.execute('SELECT * FROM users WHERE deleted_at IS NULL');
+  const [data] = await db.execute('SELECT * FROM users WHERE deleted_at IS NULL ORDER BY created_at DESC');
   return data;
 }
 
