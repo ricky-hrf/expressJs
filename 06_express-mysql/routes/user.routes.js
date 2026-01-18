@@ -20,7 +20,7 @@ router.get('/users', allUsers);
 router.get('/users/:id', validation({ params: userIdSchema }), userById);
 
 // router UPDATE data BY ID
-router.put('/users/:id', validation({ body: userSchema, params: userIdSchema }), updateById);
+router.put('/users/:id', updateById);
 
 // router DELETE data BY ID
 router.delete('/users/:id', validation({ params: userIdSchema }), deleteById);
