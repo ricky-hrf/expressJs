@@ -1,12 +1,19 @@
 import crypto from 'crypto';
+import bcrypt from 'bcrypt';
 import { insertUser, allUsers, userById, updateById, softDeleteById } from '../model/users.model.js';
 
-export const createUser = async ({ fullname, email, password, address }) => {
+export const createUser = async ({ fullname, email, address }) => {
+  // default password
+  const defaultPassword = "password123";
+
+  // hash password
+  const hashPassword = await bcrypt.hash(defaultPassword, 10);
+
   const newUser = {
     id: crypto.randomUUID(),
     fullname,
     email,
-    password,
+    password: hashPassword,
     address,
     created_at: new Date(),
   }
@@ -23,6 +30,11 @@ export const readUserById = async (id) => {
 }
 
 export const updateUserById = async (id, payload) => {
+  if (payload.password) {
+    payload.password = await bcrypt.hash(data.password, 10);
+  } else {
+    delete payload.password;
+  }
   const affectedRows = await updateById(id, payload);
 
   if (affectedRows === 0) {

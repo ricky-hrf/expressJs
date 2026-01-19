@@ -1,8 +1,13 @@
 import { createUser, readUsers, readUserById, updateUserById, deleteUserById } from '../services/users.services.js';
+import { userSchema } from '../schemas/user.schema.js';
 
-export const addUser = (req, res) => {
+export const addUser = async (req, res) => {
   try {
-    const newUser = createUser(req.body);
+    // validasi selain password
+    const validated = userSchema.parse(req.body);
+
+    const newUser = await createUser(validated);
+
     res.status(200).json({
       message: 'new user added successfully',
       data: newUser,
