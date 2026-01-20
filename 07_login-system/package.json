@@ -1,0 +1,19 @@
+{
+  "type": "module",
+  "name": "api_users",
+  "version": "1.0.0",
+  "description": "api user yang siap dipakai",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node --env-file=.env --watch index.js"
+  },
+  "author": "ricky harefa",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.5",
+    "express": "^5.2.1",
+    "mysql2": "^3.16.0",
+    "zod": "^4.3.5"
+  }
+}
