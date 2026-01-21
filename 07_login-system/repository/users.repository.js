@@ -1,7 +1,7 @@
 import db from '../config/database.js';
 
 export const insertUser = async (user) => {
-  const sql = `INSERT INTO users (id, fullname, email, password, address, role, created_at) VALUES (?, ?, ?, ?, ?, ?)`;
+  const sql = `INSERT INTO users (id, fullname, email, password, address, role, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)`;
 
   await db.execute(sql, [
     user.id,
@@ -49,4 +49,10 @@ export const softDeleteById = async (id) => {
   const [result] = await db.execute('UPDATE users SET deleted_at = NOW() WHERE id = ? AND deleted_at IS NULL', [id]);
 
   return result.affectedRows > 0;
+}
+
+export const getUserByEmail = async (email) => {
+  const [data] = await db.execute('SELECT * FROM users WHERE email = ? LIMIT 1', [email]);
+
+  return data[0];
 }
