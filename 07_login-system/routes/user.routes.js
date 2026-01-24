@@ -2,6 +2,7 @@ import express from 'express';
 import { validation } from '../middlewares/validation.js';
 import { userIdSchema, userSchema } from '../schemas/user.schema.js';
 import { addUser, allUsers, userById, updateById, deleteById } from '../controllers/users.controllers.js';
+import { authMiddleware } from '../middlewares/auth.middleware.js';
 
 const router = express.Router();
 
@@ -11,13 +12,13 @@ router.get('/', (req, res) => {
 });
 
 // router CREATE data
-router.post('/users', validation({ body: userSchema }), addUser);
+router.post('/users', validation({ body: userSchema }), authMiddleware, addUser);
 
 // router READ data
-router.get('/users', allUsers);
+router.get('/users', authMiddleware, allUsers);
 
 // router READ data BY ID
-router.get('/users/:id', validation({ params: userIdSchema }), userById);
+router.get('/users/:id', validation({ params: userIdSchema }), authMiddleware, userById);
 
 // router UPDATE data BY ID
 router.put('/users/:id', updateById);
